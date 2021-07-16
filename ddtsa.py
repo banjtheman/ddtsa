@@ -4,6 +4,7 @@ from typing import Dict, Any
 
 # 3rd Party Imports
 import streamlit as st
+
 # from PIL import Image
 
 
@@ -16,6 +17,7 @@ from data_collectors.waze_scrapper import get_waze_data
 from data_collectors.get_crash_data import get_safety_concerns
 from data_collectors.get_anc import get_anc_info
 from data_collectors.neighborhood_stats import get_neighborhood_data
+from data_collectors.get_multi_modal import get_multi_modal_data
 
 
 from data_collectors.get_construction_projects import (
@@ -139,7 +141,7 @@ def get_neighborhood_uses(address: str, gmap_data: Dict[str, Any]):
     st.write(data)
 
 
-def get_multi_modal(address: str):
+def get_multi_modal(address: str, gmap_data: Dict[str, Any]):
     """
     Purpose:
         Get multi‐modal facilities
@@ -154,6 +156,9 @@ def get_multi_modal(address: str):
     st.write(
         "Are there sidewalks? Bike facilities or trails? Nearby Metrorail station or Metrobus stop(s)?"
     )
+
+    data = get_multi_modal_data(address, gmap_data)
+    st.write(data)
 
 
 def get_vehicle_types(address: str):
@@ -243,7 +248,7 @@ def generate_report(address: str):
     time_of_day_concerns(address, gmap_data)
     existing_traffic_calms(address, gmap_data)
     get_neighborhood_uses(address, gmap_data)
-    get_multi_modal(address)
+    get_multi_modal(address, gmap_data)
     get_vehicle_types(address)
     get_prev_concerns(address, gmap_data)
     get_extra_info(address)
